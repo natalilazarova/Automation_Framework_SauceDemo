@@ -65,14 +65,14 @@ public class TestUtil {
         FirefoxOptions options = new FirefoxOptions();
         // Retry driver creation once if it fails
         int attempts = 0;
-        while (attempts < 2) {
+        while (attempts < 3) {
             try {
                 driver = new FirefoxDriver(options);
                 break;
             } catch (SessionNotCreatedException e) {
                 attempts++;
-                if (attempts == 2) throw e;
-                try { Thread.sleep(2000); } catch (InterruptedException ie) {
+                if (attempts == 3) throw e;
+                try { Thread.sleep(5000); } catch (InterruptedException ie) {
                     Thread.currentThread().interrupt(); }
             }
         }
