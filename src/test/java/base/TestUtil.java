@@ -63,6 +63,7 @@ public class TestUtil {
         WebDriverManager.firefoxdriver().setup(); // or however you manage it
 
         FirefoxOptions options = new FirefoxOptions();
+        options.addArguments("-headless");
         // Retry driver creation once if it fails
         int attempts = 0;
         while (attempts < 3) {
