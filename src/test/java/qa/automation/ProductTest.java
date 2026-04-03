@@ -67,6 +67,7 @@ public class ProductTest  {
 
     @Test
     public void addItemToCart(){
+        driver.get("https://www.saucedemo.com/");
         LoginPage loginPage = new LoginPage(driver);
         ProductsPage productPage = loginPage.login("standard_user","secret_sauce");
 

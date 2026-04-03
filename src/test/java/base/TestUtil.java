@@ -1,9 +1,11 @@
 package base;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
@@ -57,11 +59,28 @@ public class TestUtil {
     }
 
     private void createFirefoxDriver(String url, int imlicitWait) {
-        WebDriverManager.firefoxdriver().setup();
-        driver = new FirefoxDriver();
+
+        WebDriverManager.firefoxdriver().setup(); // or however you manage it
+
+        FirefoxOptions options = new FirefoxOptions();
+        // Retry driver creation once if it fails
+        int attempts = 0;
+        while (attempts < 2) {
+            try {
+                driver = new FirefoxDriver(options);
+                break;
+            } catch (SessionNotCreatedException e) {
+                attempts++;
+                if (attempts == 2) throw e;
+                try { Thread.sleep(2000); } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt(); }
+            }
+        }
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(imlicitWait));
         loadUrl(url);
     }
+
+
     private void createChromeDriver(String url, int imlicitWait) {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
