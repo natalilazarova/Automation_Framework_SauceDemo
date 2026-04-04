@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -43,13 +44,17 @@ public class ProductTest  {
         password.click();
         password.sendKeys("secret_sauce");
 
-        WebElement loginBtn = driver.findElement(By.cssSelector("[value= Login]"));
+//        WebElement loginBtn = driver.findElement(By.cssSelector("[value= Login]"));
+        WebElement loginBtn = driver.findElement(By.id("login-button"));
         loginBtn.click();
 
      //   Explicit wait
         //ako iskame da uvelichim chakaneto samo na end konkretno mqsto -  t.e samo tuk da e razlichno ot 5 sek.
       //  WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement dropDownSortingOptions = driver.findElement(By.xpath("//select[@class='product_sort_container']"));
+//        WebElement dropDownSortingOptions = driver.findElement(By.xpath("//select[@class='product_sort_container']"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        WebElement dropDownSortingOptions = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@class='product_sort_container']")));
 
        //dropDownSortingOptions.wait();
         dropDownSortingOptions.click();
